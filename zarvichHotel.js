@@ -1,5 +1,6 @@
 var express = require('express');
 var zarvich = express();
+const db2 = require('./db2');
 var dotenv = require('dotenv');
 var mongo = require('mongodb');
 var MongoClient = mongo.MongoClient;
@@ -11,12 +12,15 @@ const bodyparser = require('body-parser');
 const res = require('express/lib/response');
 var port = process.env.PORT || 80;
 var db;
+const AuthController = require('./auth/authController');
+
 
 
 zarvich.use(bodyparser.urlencoded({extended:true}));
 zarvich.use(bodyparser.json());
 zarvich.use(cors());
 zarvich.use(express());
+zarvich.use('/api/auth', AuthController)
 
 zarvich.get('/',(re,res)=>{
     res.send("This is root page")
