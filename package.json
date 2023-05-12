@@ -4,8 +4,9 @@
   "description": "HotelNode",
   "main": "index.js",
   "scripts": {
-    "start": "node zarvichHotel.js",
-    "zarvich": "nodemon zarvichHotel.js"
+    "start": "node zarvichHotel.js --watch",
+    "dev": "pm2 start zarvichHotel.js",
+    "stop": "pm2 stop zarvichHotel.js"
   },
   "keywords": [
     "Hotel",
