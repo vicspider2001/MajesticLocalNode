@@ -259,6 +259,25 @@ else if(req.query.orgNames){
     })
 })
 
+zarvich.get('/getDailyOccuppancy', (req,res)=> {
+    var query = {};
+    console.log(req.query.id)
+    if(req.query.id){
+        query={_id:(req.query.id)}
+    }
+
+    else if(req.query.occuppancyToday){
+       var occuppancyToday = (req.query.occuppancyToday)
+        query={'OccuppancyDate':(occuppancyToday)}
+    }
+
+    db.collection('checkinWarehouse').find(query).toArray((err,result) => {
+        if(err) throw err;
+        res.send(result)
+    })
+
+})
+
 //return all checkoutRooms
 zarvich.get('/checkedout', (req,res)=> {
     var query = {};
