@@ -1,4 +1,7 @@
-var express = require('express');
+const express = require('express');
+const https = require("https");
+const path = require("path");
+const fs = require("fs");
 var zarvich = express();
 const db2 = require('./db2');
 var dotenv = require('dotenv');
@@ -5238,11 +5241,16 @@ zarvich.delete('/delstockOut/:id',(req,res)=>{
 })
 
 MongoClient.connect(MongoUrl, (err,client) => {
-  if(err) console.log("error while connecting");
-  db = client.db('zarvichweb');
-  zarvich.listen(port, '0.0.0.0',()=>{
-      console.log(`listening on port ${port}`)
-  })
+    if(err) console.log("error while connecting");
+    db = client.db('zarvichweb');
+    const options={
+        key:fs.readFileSync(path.join(__dirname,'./certs/key.pem')),
+        cert:fs.readFileSync(path.join(__dirname,'./certs/cert.pem')) 
+    }
+    const sslserver =https.createServer(options,zarvich)
+    sslserver.listen(port, '0.0.0.0',()=>{
+        console.log(`listening on port ${port}`)
+    })
 })
 
 
